@@ -1,21 +1,21 @@
-#MyTable {
+#myTable {
     padding: 1rem;
     border-radius: 0.5rem;
 }
 
-#MyTable td, #MyTable th {
+#myTable td, #myTable th {
     padding: 10px;
     border: 1px solid #000000;
     font-size: 16px;
 }
 
-#MyTable th {
+#myTable th {
     text-align: center;
     background-color: #FFDAB9 ;
     font-weight: bold;
 }
 
-#MyTable td {
+#myTable td {
     text-align: center;
 }
 
@@ -27,26 +27,26 @@ tr:hover {
 	background-color: #E6E6FA;
 }
 
-#Addbtn {
+#addbtn {
     border: 1px solid black;
 }
 
-#Addbtn:hover {
+#addbtn:hover {
     background-color: #ffffff;
 }
 
 
-#Editbtn {
+#editbtn {
     background-color:white;
     border: 1px solid black;
     margin-right: 5px;
 }
 
-#Editbtn:hover {
+#editbtn:hover {
     background-color: #fae7c3;
 }
 
-#Deletebtn {
+#deletebtn {
     border: 1px solid black;
 }
 
@@ -56,4 +56,19 @@ tr:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.modal-footer {
+    justify-content: center;
+}
+
+.modal-dialog{
+    width: 1000px;
+    height: 200px;
+    align-items: center;
+}
+
+.modal-body {
+    width: 1000px;
+    height: 200px;
 }

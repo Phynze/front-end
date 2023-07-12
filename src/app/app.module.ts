@@ -10,13 +10,17 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { UserListComponent } from './user-list/user-list.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { defineLocale, thBeLocale } from 'ngx-bootstrap/chronos';
 
 registerLocaleData(en);
+defineLocale('th-be', thBeLocale);
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserListComponent
+    UserListComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,9 +28,11 @@ registerLocaleData(en);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NzTableModule
+    NzTableModule,
+    ModalModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, BsDatepickerConfig],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
