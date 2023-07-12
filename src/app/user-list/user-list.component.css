@@ -1,0 +1,59 @@
+#MyTable {
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+#MyTable td, #MyTable th {
+    padding: 10px;
+    border: 1px solid #000000;
+    font-size: 16px;
+}
+
+#MyTable th {
+    text-align: center;
+    background-color: #FFDAB9 ;
+    font-weight: bold;
+}
+
+#MyTable td {
+    text-align: center;
+}
+
+tr:nth-child(even){
+	background-color: #FDF5E6;
+}
+
+tr:hover {
+	background-color: #E6E6FA;
+}
+
+#Addbtn {
+    border: 1px solid black;
+}
+
+#Addbtn:hover {
+    background-color: #ffffff;
+}
+
+
+#Editbtn {
+    background-color:white;
+    border: 1px solid black;
+    margin-right: 5px;
+}
+
+#Editbtn:hover {
+    background-color: #fae7c3;
+}
+
+#Deletebtn {
+    border: 1px solid black;
+}
+
+.material-symbols-outlined {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

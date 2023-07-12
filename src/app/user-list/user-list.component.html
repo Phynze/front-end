@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+ <nz-table [nzData]="displayData" #table id="MyTable">
+    <thead>
+      <tr>
+        <th>ลำดับ</th>
+        <th>รหัสผู้ใช้งาน</th>
+        <th>ชื่อ-นามสกุล</th>
+        <th>วันเกิด</th>
+        <th>อายุ</th>
+        <th>เพศ</th>
+        <th>วันที่บันทึก</th>
+        <th>
+            <button type="button" class="btn" id="Addbtn">
+            <span class="material-symbols-outlined">
+               add
+               </span>
+         </button>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of table.data">
+        <td>{{ item.num }}</td>
+        <td>{{ item.id }}</td>
+        <td>{{ item.fullname }}</td>
+        <td>{{ item.birthdate | date: 'medium' }}</td>
+        <td>{{ item.age }}</td>
+        <td>{{ item.gender }}</td>
+        <td>{{ item.updatedate | date: 'medium'}}</td>
+        <td>
+            <button type="button" class="btn" id="Editbtn" onclick="onClickEdit">Edit</button>
+            <button type="button" class="btn btn-danger" id="Deletebtn" onclick="deleteData" >Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>

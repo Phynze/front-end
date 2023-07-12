@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+#table {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 2px solid;
+    border-color: black;
+  }
+
+#table td, #table th {
+    padding: 10px;
+    border: 1px solid #000000;
+    font-size: 16px;
+  }
+
+#table th {
+    text-align: center;
+    background-color: #FFDAB9 ;
+    font-weight: bold;
+  }
