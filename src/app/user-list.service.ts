@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'; 
-import { UserList } from './user-list'; 
+import { UserList } from './user-list';
+import { Subject } from 'rxjs';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators'; 
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
@@ -9,7 +10,23 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 })
 export class UserListService {
 
-  private expenseRestUrl = 'http://localhost:8000/api/expense';
+   userList: UserList[] = [];
+
+   addData(userList: UserList) { // เพิ่มข้อมูลเข้าอาเรย์
+      this.userList.push(userList);
+      window.alert('เพิ่มข้อมูลเรียบร้อยแล้ว');
+   }
+
+   getUserData() {
+      return this.userList;
+   }
+  
+   clearUserData() {
+      this.userList = [];
+      return this.userList;
+   }
+
+  /*private expenseRestUrl = 'http://localhost:8000/api/expense';
 
   private httpOptions = { 
     headers: new HttpHeaders( { 'Content-Type': 'application/json' }) 
@@ -39,5 +56,5 @@ export class UserListService {
     }
  
     return throwError("Error occurred. Pleas try again");
- }
+ }*/
 }

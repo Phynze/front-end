@@ -1,7 +1,9 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Output, EventEmitter } from '@angular/core';
 import { UserList} from '../user-list';
 import { DebugService } from '../debug.service';
 import { UserListService } from '../user-list.service';
+import { ActivatedRoute } from '@angular/router';
+
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale, thBeLocale } from 'ngx-bootstrap/chronos';
@@ -14,11 +16,19 @@ import { defineLocale, thBeLocale } from 'ngx-bootstrap/chronos';
 export class UserListComponent implements OnInit {
 
   title: string;
-  userList: UserList[];
   modalRef: BsModalRef;
-  
+  userList: UserList[] = [];
+
   selectedDate: Date;
   maxEndDate: Date;
+  bsValue: Date;
+
+  name: string;
+  lastname: string;
+  age: number;
+  birthdate: Date;
+  gender: string;
+  id: number;
 
   constructor(private debugService: DebugService, private restService : UserListService, private modalService: BsModalService,
               private localeService: BsLocaleService) {
@@ -30,78 +40,76 @@ export class UserListComponent implements OnInit {
   ngOnInit() {
     this.debugService.info("User List component initialized");
     this.title = "ผู้ใช้งาน"
+    this.userList = this.restService.getUserData(); // ดึงข้อมูลผู้ใช้งานทั้งหมดจาก service
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
-  data = [
-    { num: 1,
-      id: 1, 
-      name: "สมชาย", 
-      lastname: "ใจดี", 
-      age: 25, 
+  @Output() dataAdded: EventEmitter<any> = new EventEmitter();
+
+  addUserData(){
+    var id = 1;
+    const data = {
+      num: this.userList.length + 1,
+      id: id++,
+      name: this.name,
+      lastname: this.lastname,
+      age: this.age,
       craetedate: new Date(),
-      gender: "ชาย",
-      birthdate: new Date(1991, 5, 5),
-      createby: "สมชาย",
+      gender: this.gender,
+      birthdate: this.birthdate,
+      createby: this.name,
       updatedate: new Date(),
-      updateby: "สมชาย",
-      fullname: "สมชาย ใจดี"
-    }, 
-    { num: 2, 
-      id: 2, 
-      name: "สวยงาม", 
-      lastname: "มาก", 
-      age: 21, 
-      craetedate: new Date(),
-      gender: "หญิง",
-      birthdate: new Date(2002, 6, 7),
-      createby: "สวยงาม",
-      updatedate: new Date(),
-      updateby: "สวยงาม",
-      fullname: "สวยงาม มาก"
-    }, 
-    { num: 3, 
-      id: 3, 
-      name: "ภัทร", 
-      lastname: "ธนภัทร", 
-      age: 21, 
-      craetedate: new Date(),
-      gender: "ชาย",
-      birthdate: new Date(2001, 12, 11),
-      createby: "ภัทร",
-      updatedate: new Date(),
-      updateby: "ภัทร",
-      fullname: "ภัทร ธนภัทร" 
-    }, 
-    { num: 4,
-      id: 4, 
-      name: "สมชาย", 
-      lastname: "ใจดี", 
-      age: 25, 
-      craetedate: new Date(),
-      gender: "ชาย",
-      birthdate: new Date(1991, 5, 5),
-      createby: "สมชาย",
-      updatedate: new Date(),
-      updateby: "สมชาย",
-      fullname: "สมชาย ใจดี" 
-    }, 
-    { num: 5,
-      id: 5, 
-      name: "สมชาย", 
-      lastname: "ใจดี", 
-      age: 25, 
-      craetedate: new Date(),
-      gender: "ชาย",
-      birthdate: new Date(1991, 5, 5),
-      createby: "สมชาย",
-      updatedate: new Date(),
-      updateby: "สมชาย",
-      fullname: "สมชาย ใจดี" 
-     },  
-  ];
-  displayData = [...this.data];
+      updateby: this.name,
+      fullname: this.name + " " + this.lastname
+    };
+
+    console.log(data);
+    this.dataAdded.emit(data);
+    this.addData(data);
+    this.name = '';
+    this.lastname = '';
+    this.age = null;
+    this.birthdate = null;
+    this.gender = '';
+
+    this.modalRef.hide(); // ปิด modal
+    this.updateDisplayData(); // อัปเดตข้อมูลที่แสดงในตาราง
+  }
+
+  addData(userList: UserList) {
+    this.restService.addData(userList); // เรียกใช้งานเมธอด addData() ของ UserListService
+  }
+
+  onValueChange($value: Date): void {
+    if ($value) {
+      this.age = this.calculateAge();
+    }
+  }
+
+  runId(){
+    var id = 1;
+    id = id + 1;
+  }
+
+  calculateAge(){
+    const today = new Date();
+    const birthdate = new Date(this.birthdate);
+    console.log(birthdate);
+    var age = today.getFullYear() - birthdate.getFullYear();
+    const monthDiff = today.getMonth() - birthdate.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
+        age--;
+    }
+    return age;
+  }
+
+  updateDisplayData() {
+    this.displayData = [...this.userList]; // อัปเดตข้อมูลที่แสดงในตาราง
+  }
+
+  displayData = [...this.userList];
 }

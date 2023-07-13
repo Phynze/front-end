@@ -60,15 +60,30 @@ tr:hover {
 
 .modal-footer {
     justify-content: center;
+    padding: 0.5rem !important;
 }
 
-.modal-dialog{
-    width: 1000px;
-    height: 200px;
-    align-items: center;
+#genderlabel, #lastnamelabel, #agelabel, #birthdatelabel, #namelabel{
+    margin-left: 0.75rem;
+    margin-top: 0.5rem;
 }
 
-.modal-body {
-    width: 1000px;
-    height: 200px;
+#lastnamelabel, #birthdatelabel {
+    margin-right: 0.5rem;
+}
+
+#namelabel{
+    margin-right: 1.75rem;
+}
+
+#genderlabel {
+    margin-right: 1.4rem;
+}
+
+#agelabel {
+    margin-right: 2.1rem;
+}
+
+#name, #lastname, #age, #birthdate{
+    width: 175px;
 }

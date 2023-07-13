@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { UserListService } from './user-list.service';
+
 import { AppComponent } from './app.component';
 import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
@@ -32,7 +34,7 @@ defineLocale('th-be', thBeLocale);
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot()
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, BsDatepickerConfig],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, BsDatepickerConfig, UserListService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

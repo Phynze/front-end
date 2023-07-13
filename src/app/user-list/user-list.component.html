@@ -19,7 +19,7 @@
     </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of table.data">
+      <tr *ngFor="let item of userList">
         <td>{{ item.num }}</td>
         <td>{{ item.id }}</td>
         <td>{{ item.fullname }}</td>
@@ -28,7 +28,7 @@
         <td>{{ item.gender }}</td>
         <td>{{ item.updatedate | date: 'medium'}}</td>
         <td>
-            <button type="button" class="btn" id="editbtn" >Edit</button>
+            <button type="button" class="btn" id="editbtn">Edit</button>
             <button type="button" class="btn btn-danger" id="deletebtn" >Delete</button>
         </td>
       </tr>
@@ -36,7 +36,6 @@
   </nz-table>
 
   <ng-template #template id="MyModal">
-    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title pull-left">กรุณากรอกข้อมูลการใช้งาน</h4>
@@ -48,56 +47,56 @@
         <div class="modal-body">
          <div class="row" style="padding: 3px;text-align: right;">
            <div class="col-xs-2">
-             <label class="contro-label">ชื่อ</label>
+             <label class="contro-label" id="namelabel">ชื่อ</label>
            </div>
            <div class="col-xs-3">
-             <input type="text" class="form-control" id="Fname" placeholder="กรอกชื่อ" required>
+             <input type="text" class="form-control" id="name" [(ngModel)]="name" placeholder="กรอกชื่อ" required>
            </div>
            <div class="col-xs-2">
-             <label class="contro-label">นามสกุล</label>
+             <label class="contro-label" id="lastnamelabel">นามสกุล</label>
            </div>
            <div class="col-xs-3">
-             <input type="text" class="form-control" id="Sname" placeholder="กรอกนามสกุล" required>
+              <input type="text" class="form-control" [(ngModel)]="lastname" id="lastname" placeholder="กรอกนามสกุล" required>
            </div>
          </div>
    
          <div class="row" style="padding: 3px;text-align: right;">
            <div class="col-xs-2">
-             <label class="contro-label" for="current">วันเกิด</label>
+             <label class="contro-label" for="current" id="birthdatelabel">วันเกิด</label>
            </div>
            <div class="col-xs-3">
              <div class="from-group">
-               <input type="text" class="form-control" bsDatepicker [(bsValue)]="selectedDate" id="birthdate"
-               [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY', maxDate: maxEndDate }" placeholder="dd/mm/yyyy">
+               <input type="text" class="form-control" bsDatepicker [(ngModel)]="birthdate" (ngModelChange)="onValueChange($event)"
+               [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY', maxDate: maxEndDate }" 
+               id="birthdate" placeholder="เลือกวันเกิด" required>
              </div>
            </div>
    
            <div class="col-xs-2">
-             <label class="contro-label">อายุ</label>
+             <label class="contro-label" id="agelabel">อายุ</label>
            </div>
            <div class="col-xs-3">
-             <input type="text" class="form-control" name="age" id="age" readonly>
+             <input type="text" class="form-control" name="age" id="age" [(ngModel)]="age" readonly>
            </div>
          </div>
    
          <div class="row" style="padding: 3px;text-align: right;">
            <div class="col-xs-2">
-             <label class="contro-label">เพศ</label>
+             <label class="contro-label" id="genderlabel">เพศ</label>
            </div>
            <div class="col-xs-3">
              <form name="sexdropdown" id="sexdropdown">
-               <select class="form-control" name="เพศ" id="gender" style="border-radius: 5px;">
-                 <option value="หญิง">หญิง</option>
-                 <option value="ชาย">ชาย</option>
-                 <option value="LGBTQ+">LGBTQ+</option>
-               </select>
-             </form>
-           </div>
-         </div>
+              <select class="form-control" name="gender" id="gender" [(ngModel)]="gender" style="border-radius: 5px;" required>
+                <option value="หญิง">หญิง</option>
+                <option value="ชาย">ชาย</option>
+                <option value="LGBTQ+">LGBTQ+</option>
+              </select>
+            </form>
+          </div>
        </div>
    
        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="savebtn">บันทึก</button>
+          <button type="button" class="btn btn-primary" id="savebtn" (click)="addUserData()">บันทึก</button>
           <button type="button" class="btn btn-danger" (click)="modalRef.hide()" id="cancelbtn">ยกเลิก</button>
        </div>
       </div>
