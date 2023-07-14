@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, TemplateRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { UserList} from '../user-list';
 import { DebugService } from '../debug.service';
 import { UserListService } from '../user-list.service';
@@ -29,6 +29,8 @@ export class UserListComponent implements OnInit {
   birthdate: Date;
   gender: string;
   id: number;
+  num: number;
+  craetedate: Date;
 
   constructor(private debugService: DebugService, private restService : UserListService, private modalService: BsModalService,
               private localeService: BsLocaleService) {
@@ -50,10 +52,9 @@ export class UserListComponent implements OnInit {
   @Output() dataAdded: EventEmitter<any> = new EventEmitter();
 
   addUserData(){
-    var id = 1;
     const data = {
-      num: this.userList.length + 1,
-      id: id++,
+      num: this.num || (this.userList.length + 1), // ใช้ค่า num เดิมหากมีการแก้ไข
+      id: this.id || (this.userList.length + 1), // ใช้ id เดิมหากมีการแก้ไข
       name: this.name,
       lastname: this.lastname,
       age: this.age,
@@ -66,9 +67,20 @@ export class UserListComponent implements OnInit {
       fullname: this.name + " " + this.lastname
     };
 
+    if (this.id) {
+      // แก้ไขข้อมูลผู้ใช้
+      const index = this.userList.findIndex(item => item.id === this.id);
+      if (index !== -1) {
+        this.userList[index] = data;
+      }
+    } else {
+      // เพิ่มข้อมูลผู้ใช้ใหม่
+      console.log(data);
+      this.addData(data);
+    }
+
     console.log(data);
-    this.dataAdded.emit(data);
-    this.addData(data);
+    //this.dataAdded.emit(data);
     this.name = '';
     this.lastname = '';
     this.age = null;
@@ -112,4 +124,28 @@ export class UserListComponent implements OnInit {
   }
 
   displayData = [...this.userList];
+
+  deleteUserData(user: UserList) {
+    const index = this.userList.indexOf(user);
+    if (index !== -1) {
+      this.userList.splice(index, 1);
+      this.updateDisplayData();
+    }
+  }
+
+  @ViewChild('template', { static: false }) template: TemplateRef<any>;
+  
+  editUserData(user: UserList) {
+    this.num = user.num;
+    this.name = user.name;
+    this.lastname = user.lastname;
+    this.age = user.age;
+    this.birthdate = user.birthdate;
+    this.gender = user.gender;
+    this.id = user.id;
+    this.craetedate = user.craetedate;
+  
+    // เปิด Modal สำหรับแก้ไขข้อมูล
+    this.openModal(this.template);
+  }
 }

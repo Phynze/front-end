@@ -28,8 +28,8 @@
         <td>{{ item.gender }}</td>
         <td>{{ item.updatedate | date: 'medium'}}</td>
         <td>
-            <button type="button" class="btn" id="editbtn">Edit</button>
-            <button type="button" class="btn btn-danger" id="deletebtn" >Delete</button>
+            <button type="button" class="btn" id="editbtn" (click)="editUserData(item)">Edit</button>
+            <button type="button" class="btn btn-danger" id="deletebtn" (click)="deleteUserData(item)">Delete</button>
         </td>
       </tr>
     </tbody>
