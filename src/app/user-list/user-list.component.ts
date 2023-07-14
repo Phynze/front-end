@@ -19,9 +19,7 @@ export class UserListComponent implements OnInit {
   modalRef: BsModalRef;
   userList: UserList[] = [];
 
-  selectedDate: Date;
   maxEndDate: Date;
-  bsValue: Date;
 
   name: string;
   lastname: string;
@@ -31,6 +29,10 @@ export class UserListComponent implements OnInit {
   id: number;
   num: number;
   craetedate: Date;
+
+  lastId: number = 0;
+  originalId: number; // เอาไว้เก็บ id ของตัวที่จะแก้ไข
+  originalNum : number; // เอาไว้เก็บ num ของตัวที่จะแก้ไข
 
   constructor(private debugService: DebugService, private restService : UserListService, private modalService: BsModalService,
               private localeService: BsLocaleService) {
@@ -43,6 +45,9 @@ export class UserListComponent implements OnInit {
     this.debugService.info("User List component initialized");
     this.title = "ผู้ใช้งาน"
     this.userList = this.restService.getUserData(); // ดึงข้อมูลผู้ใช้งานทั้งหมดจาก service
+
+    // คำนวณค่า lastId จากข้อมูลผู้ใช้งานที่โหลดมาแล้ว
+    this.lastId = this.userList.length > 0 ? this.userList[this.userList.length - 1].id : 0;
   }
 
   openModal(template: TemplateRef<any>) {
@@ -52,9 +57,14 @@ export class UserListComponent implements OnInit {
   @Output() dataAdded: EventEmitter<any> = new EventEmitter();
 
   addUserData(){
+    const id = this.originalId || (this.userList.length > 0 ? Math.max(...this.userList.map(item => item.id)) + 1 : 1);
+      // คำนวณค่า id ใหม่ในกรณีที่ไม่มีข้อมูลที่มีอยู่หรือเมื่อแก้ไขข้อมูลแล้ว userList เป็น list ว่าง 
+      // โดยการนำค่า id ที่มากที่สุดใน userList มาบวก 1 เพื่อกำหนดค่า id ใหม่ให้กับข้อมูลที่เพิ่มเข้ามา
+    const num = this.originalNum || (this.userList.length + 1); // ใช้ค่า originalNum เดิมหากมีการแก้ไข
+
     const data = {
-      num: this.num || (this.userList.length + 1), // ใช้ค่า num เดิมหากมีการแก้ไข
-      id: this.id || (this.userList.length + 1), // ใช้ id เดิมหากมีการแก้ไข
+      num: num , // ใช้ค่า num เดิมหากมีการแก้ไข
+      id: id,
       name: this.name,
       lastname: this.lastname,
       age: this.age,
@@ -67,9 +77,9 @@ export class UserListComponent implements OnInit {
       fullname: this.name + " " + this.lastname
     };
 
-    if (this.id) {
+    if (this.originalId) {
       // แก้ไขข้อมูลผู้ใช้
-      const index = this.userList.findIndex(item => item.id === this.id);
+      const index = this.userList.findIndex(item => item.id === this.originalId);
       if (index !== -1) {
         this.userList[index] = data;
       }
@@ -80,12 +90,15 @@ export class UserListComponent implements OnInit {
     }
 
     console.log(data);
-    //this.dataAdded.emit(data);
     this.name = '';
     this.lastname = '';
     this.age = null;
     this.birthdate = null;
     this.gender = '';
+
+    this.lastId = id; // อัปเดตค่า lastId
+    this.originalId = null; // รีเซ็ตค่า originalId
+    this.originalNum = null; // รีเซ็ตค่า originalNum
 
     this.modalRef.hide(); // ปิด modal
     this.updateDisplayData(); // อัปเดตข้อมูลที่แสดงในตาราง
@@ -99,11 +112,6 @@ export class UserListComponent implements OnInit {
     if ($value) {
       this.age = this.calculateAge();
     }
-  }
-
-  runId(){
-    var id = 1;
-    id = id + 1;
   }
 
   calculateAge(){
@@ -144,6 +152,8 @@ export class UserListComponent implements OnInit {
     this.gender = user.gender;
     this.id = user.id;
     this.craetedate = user.craetedate;
+    this.originalId = user.id;
+    this.originalNum = user.num; // เก็บค่า num เดิม
   
     // เปิด Modal สำหรับแก้ไขข้อมูล
     this.openModal(this.template);
