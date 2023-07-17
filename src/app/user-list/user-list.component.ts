@@ -60,7 +60,6 @@ export class UserListComponent implements OnInit {
   @Output() dataAdded: EventEmitter<any> = new EventEmitter();
 
   addUserData(){
-    // ตรวจสอบว่าข้อมูลถูกกรอกครบทุกช่องหรือไม่
     if (!this.name || !this.lastname || !this.age || !this.birthdate || !this.gender) {
     // แสดงข้อความแจ้งเตือนหรือจัดการข้อผิดพลาดที่ต้องการ
       alert('กรุณากรอกข้อมูลให้ครบถ้วน');
@@ -73,7 +72,7 @@ export class UserListComponent implements OnInit {
     const num = this.originalNum || (this.userList.length + 1); // ใช้ค่า originalNum เดิมหากมีการแก้ไข
 
     const data = {
-      num: num , // ใช้ค่า num เดิมหากมีการแก้ไข
+      num: num ,
       id: id,
       name: this.name,
       lastname: this.lastname,

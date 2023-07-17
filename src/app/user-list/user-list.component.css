@@ -60,7 +60,8 @@ tr:hover {
 
 .modal-footer {
     justify-content: center;
-    padding: 0.5rem !important;
+    padding-top: 1rem;
+    padding-bottom: 0rem;
 }
 
 #genderlabel, #lastnamelabel, #agelabel, #birthdatelabel, #namelabel{
@@ -86,4 +87,14 @@ tr:hover {
 
 #name, #lastname, #age, #birthdate{
     width: 175px;
+}
+
+.modal-header {
+    background-color: #FFDAB9;
+    padding: 0.5rem 0.5rem;
+}
+
+#gender {
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
 }
