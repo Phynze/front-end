@@ -53,6 +53,10 @@ export class UserListComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  closeModal() {
+    this.modalRef.hide();
+  }
+
   @Output() dataAdded: EventEmitter<any> = new EventEmitter();
 
   addUserData(){
@@ -172,5 +176,18 @@ export class UserListComponent implements OnInit {
   
     // เปิด Modal สำหรับแก้ไขข้อมูล
     this.openModal(this.template);
+  }
+
+  cancelEdit(){
+    this.closeModal();
+
+    this.name = '';
+    this.lastname = '';
+    this.age = null;
+    this.birthdate = null;
+    this.gender = '';
+
+    this.originalId = null; // รีเซ็ตค่า originalId
+    this.originalNum = null; // รีเซ็ตค่า originalNum
   }
 }
