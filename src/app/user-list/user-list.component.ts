@@ -60,6 +60,13 @@ export class UserListComponent implements OnInit {
   @Output() dataAdded: EventEmitter<any> = new EventEmitter();
 
   addUserData(){
+    // ตรวจสอบว่าข้อมูลถูกกรอกครบทุกช่องหรือไม่
+    if (!this.name || !this.lastname || !this.age || !this.birthdate || !this.gender) {
+    // แสดงข้อความแจ้งเตือนหรือจัดการข้อผิดพลาดที่ต้องการ
+      alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+      return;
+    }
+
     const id = this.originalId || (this.userList.length > 0 ? Math.max(...this.userList.map(item => item.id)) + 1 : 1);
       // คำนวณค่า id ใหม่ในกรณีที่ไม่มีข้อมูลที่มีอยู่หรือเมื่อแก้ไขข้อมูลแล้ว userList เป็น list ว่าง 
       // โดยการนำค่า id ที่มากที่สุดใน userList มาบวก 1 เพื่อกำหนดค่า id ใหม่ให้กับข้อมูลที่เพิ่มเข้ามา
