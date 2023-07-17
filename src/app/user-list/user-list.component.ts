@@ -57,8 +57,6 @@ export class UserListComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  @Output() dataAdded: EventEmitter<any> = new EventEmitter();
-
   addUserData(){
     if (!this.name || !this.lastname || !this.age || !this.birthdate || !this.gender) {
     // แสดงข้อความแจ้งเตือนหรือจัดการข้อผิดพลาดที่ต้องการ
