@@ -135,13 +135,19 @@ export class UserListComponent implements OnInit {
 
   deleteUserData(user: UserList) {
     const index = this.userList.indexOf(user);
-    if (index !== -1) {
-      this.userList.splice(index, 1);
-      // อัปเดตค่า num ของข้อมูลที่เหลือจาก index ที่ถูกลบไปเป็นต้นไป และลบ 1 ออกจากค่า num เดิม เพื่อเพิ่มค่า num ที่ถัดไปตามลำดับ
-      for (let i = index; i < this.userList.length; i++) {
-      this.userList[i].num = this.userList[i].num - 1;
+    if(confirm("คุณต้องการลบข้อมูลผู้ใช้งานหรือไม่?")){
+      if (index !== -1) {
+        this.userList.splice(index, 1);
+        // อัปเดตค่า num ของข้อมูลที่เหลือจาก index ที่ถูกลบไปเป็นต้นไป โดยลบ 1 ออกจากค่า num เดิม
+        for (let i = index; i < this.userList.length; i++) {
+        this.userList[i].num = this.userList[i].num - 1;
+        }
+        this.updateDisplayData();
       }
-      this.updateDisplayData();
+      console.log("ลบข้อมูล");
+    }
+    else{
+      console.log("ไม่ลบข้อมูล");
     }
   }
 
