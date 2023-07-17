@@ -2,7 +2,6 @@ import { Component, OnInit, TemplateRef, Output, EventEmitter, ViewChild } from 
 import { UserList} from '../user-list';
 import { DebugService } from '../debug.service';
 import { UserListService } from '../user-list.service';
-import { ActivatedRoute } from '@angular/router';
 
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
@@ -129,6 +128,12 @@ export class UserListComponent implements OnInit {
 
   updateDisplayData() {
     this.displayData = [...this.userList]; // อัปเดตข้อมูลที่แสดงในตาราง
+  }
+
+  formatDate(date: Date): string {
+    const locale = 'th-BE';
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return date.toLocaleDateString(locale, options);
   }
 
   displayData = [...this.userList];

@@ -23,10 +23,10 @@
         <td>{{ item.num }}</td>
         <td>{{ item.id }}</td>
         <td>{{ item.fullname }}</td>
-        <td>{{ item.birthdate | date: 'medium' }}</td>
+        <td>{{ formatDate(item.birthdate) }}</td>
         <td>{{ item.age }}</td>
         <td>{{ item.gender }}</td>
-        <td>{{ item.updatedate | date: 'medium'}}</td>
+        <td>{{ formatDate(item.updatedate) }}</td>
         <td>
             <button type="button" class="btn" id="editbtn" (click)="editUserData(item)">Edit</button>
             <button type="button" class="btn btn-danger" id="deletebtn" (click)="deleteUserData(item)">Delete</button>
