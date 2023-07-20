@@ -1,14 +1,14 @@
 export interface UserList {
-    num: number;
     id: number;
     name: string;
     lastname: string;
     age: number;
-    craetedate: Date;
+    createdate: string;
     gender: string;
-    birthdate: Date;
+    birthdate: string;
     createby: string;
-    updatedate: Date;
+    updatedate: string;
     updateby: string;
     fullname: string;
+    actions: string;
  }

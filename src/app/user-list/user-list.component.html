@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
- <nz-table [nzData]="displayData" #table id="myTable">
+ <nz-table [nzData]="userList" #table id="myTable" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzFrontPagination]="false">
     <thead>
       <tr>
         <th>ลำดับ</th>
@@ -10,7 +10,7 @@
         <th>เพศ</th>
         <th>วันที่บันทึก</th>
         <th>
-            <button type="button" class="btn" id="addbtn" (click)="openModal(template)">
+            <button type="button" class="btn" id="addbtn" (click)="openModal('Add', newRow)">
             <span class="material-symbols-outlined">
                add
                </span>
@@ -19,16 +19,16 @@
     </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of userList">
-        <td>{{ item.num }}</td>
+      <tr *ngFor="let item of userList; let i = index ">
+        <td>{{ i + 1 }}</td>
         <td>{{ item.id }}</td>
         <td>{{ item.fullname }}</td>
-        <td>{{ formatDate(item.birthdate) }}</td>
+        <td>{{ convertToBE(item.birthdate) }}</td>
         <td>{{ item.age }}</td>
         <td>{{ item.gender }}</td>
-        <td>{{ formatDate(item.updatedate) }}</td>
+        <td>{{ convertToBE(item.updatedate) }}</td>
         <td>
-            <button type="button" class="btn" id="editbtn" (click)="editUserData(item)">Edit</button>
+            <button type="button" class="btn" id="editbtn" (click)="openModal('Edit', item)">Edit</button>
             <button type="button" class="btn btn-danger" id="deletebtn" (click)="deleteUserData(item)">Delete</button>
         </td>
       </tr>
@@ -66,9 +66,9 @@
            </div>
            <div class="col-xs-3">
              <div class="from-group">
-               <input type="text" class="form-control" bsDatepicker [(ngModel)]="birthdate" (ngModelChange)="onValueChange($event)"
-               [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY', maxDate: maxEndDate }" 
-               id="birthdate" placeholder="เลือกวันเกิด" required>
+              <input type="text" class="form-control" bsDatepicker [(ngModel)]="birthdate" (ngModelChange)="onValueChange($event)"
+              [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY', maxDate: maxEndDate }" 
+              id="birthdate" placeholder="เลือกวันเกิด" required>
              </div>
            </div>
    
@@ -96,7 +96,7 @@
        </div>
    
        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="savebtn" (click)="addUserData()">บันทึก</button>
+          <button type="button" class="btn btn-primary" id="savebtn" (click)="saveData()">บันทึก</button>
           <button type="button" class="btn btn-danger" (click)="cancelEdit()" id="cancelbtn">ยกเลิก</button>
        </div>
       </div>

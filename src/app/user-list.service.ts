@@ -9,20 +9,4 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
   providedIn: 'root'
 })
 export class UserListService {
-
-   userList: UserList[] = [];
-
-   addData(userList: UserList) { // เพิ่มข้อมูลเข้าอาเรย์
-      this.userList.push(userList);
-      window.alert('เพิ่มข้อมูลเรียบร้อยแล้ว');
-   }
-
-   getUserData() {
-      return this.userList;
-   }
-  
-   clearUserData() {
-      this.userList = [];
-      return this.userList;
-   }
 }
