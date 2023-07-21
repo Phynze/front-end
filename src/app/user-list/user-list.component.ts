@@ -1,12 +1,10 @@
-import { Component, OnInit, TemplateRef, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { UserList} from '../user-list';
 import { DebugService } from '../debug.service';
-import { UserListService } from '../user-list.service';
 
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale, thBeLocale } from 'ngx-bootstrap/chronos';
-import { NzTableModule } from 'ng-zorro-antd/table';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -163,7 +161,7 @@ export class UserListComponent implements OnInit {
           this.fetchDataFromDatabase();
         },
         (error) => {
-          this.fetchDataFromDatabase();
+          console.log("error : ", error);
         }
       );
     }else{
@@ -187,7 +185,7 @@ export class UserListComponent implements OnInit {
           this.fetchDataFromDatabase();
         },
         (error) => {
-          this.fetchDataFromDatabase();
+          console.log("error : ", error);
         }
       );
     }
