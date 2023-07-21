@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
- <nz-table [nzData]="userList" #table id="myTable" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzFrontPagination]="false">
+ <nz-table [nzData]="userList" #table id="myTable" [nzPageSize]="pageSize" [nzFrontPagination]="true">
     <thead>
       <tr>
         <th>ลำดับ</th>
@@ -19,7 +19,7 @@
     </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of userList; let i = index ">
+      <tr *ngFor="let item of table.data; let i = index ">
         <td>{{ i + 1 }}</td>
         <td>{{ item.id }}</td>
         <td>{{ item.fullname }}</td>

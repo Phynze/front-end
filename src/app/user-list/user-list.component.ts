@@ -30,8 +30,8 @@ export class UserListComponent implements OnInit {
   num: number;
   createdate: string;
 
-  pageIndex: number = 1;
-  pageSize: number = 10;
+  // Pagination variables
+  pageSize = 10;
 
   constructor(private debugService: DebugService, private modalService: BsModalService,
               private localeService: BsLocaleService, private httpClient : HttpClient) {
@@ -46,7 +46,7 @@ export class UserListComponent implements OnInit {
     // โหลดข้อมูลผู้ใช้งานจาก back-end
     this.fetchDataFromDatabase();
   }
-
+  
   newRow: UserList = {
     id: null,
     age: null,
