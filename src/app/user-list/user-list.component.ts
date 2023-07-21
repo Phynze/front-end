@@ -70,15 +70,13 @@ export class UserListComponent implements OnInit {
       console.log("ข้อมูล user : ",user);
       this.newRow = { ...user };
       console.log("ข้อมูล newRow : ",this.newRow);
+
       // แสดงข้อมูลเดิมที่เคยมีอยู่ก่อนแก้ไข
-      console.log("user.birthdate : ", user.birthdate);
-      console.log("createdate เดิม : ", user.createdate);
       this.name = user.name;
       this.lastname = user.lastname;
       this.age = user.age;
       this.birthdate = this.convertBirthdateToShow(user.birthdate);
       this.gender = user.gender;
-      console.log("this.birthdate : ", this.birthdate);
 
       this.modalRef = this.modalService.show(this.template);
     }
@@ -134,11 +132,6 @@ export class UserListComponent implements OnInit {
       alert('กรุณากรอกข้อมูลให้ครบถ้วน');
       return;
     }
-
-    console.log("this.birthdate in edit function : ", this.birthdate);
-    console.log("user.birthdate in edit function : ", user.birthdate);
-    console.log("user.birthdate in เมื่อเข้าฟังก์ชันแปลง : ", this.convertBirthdateToShow(user.birthdate));
-    console.log("createdate in edit function : ", user.createdate);
 
     if (this.convertBirthdateToShow(user.birthdate) === this.birthdate){
       const editdata = {
@@ -231,7 +224,7 @@ export class UserListComponent implements OnInit {
     return date.toLocaleDateString(locale, options);
   }
 
-  convertBirthdateToShow(date: string) {
+  convertBirthdateToShow(date: string) { // ใช้ตอนเช็คเงื่อนไขว่าได้แก้วันเกิดมั้ย
     const parts = date.split('-');
     const days = parseInt(parts[2]) + 1;
     const day = days.toString(); // แปลงให้เป็น string จะได้ใช้ method padStart() ได้
@@ -251,7 +244,7 @@ export class UserListComponent implements OnInit {
     return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
   }
 
-  convertDateToString(date: any) {
+  convertDateToString(date: any) { // แปลงเพื่อให้ format ตรงกับ back-end
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
@@ -259,7 +252,7 @@ export class UserListComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
 
-  convertToCreateDate(date: string){
+  convertToCreateDate(date: string){ // เอาวันมาจาก back-end แล้วมันลบไปหนึ่งวันเลยต้องเอามาบวกเพิ่มเพื่อเวลาเอาเข้า database จะได้เท่าเดิม
     const parts = date.split('-');
     const year = parseInt(parts[0]);
     const month = parts[1];
