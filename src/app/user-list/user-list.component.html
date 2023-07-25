@@ -1,4 +1,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+<div class="row">
+  <div class="col text-right">
+    <button type="button" class="btn" id="printbtn" (click)="onDownloadPdfClick()">Download PDF</button>
+  </div>
+</div>
+
  <nz-table [nzData]="userList" #table id="myTable" [nzPageSize]="pageSize" [nzFrontPagination]="true">
     <thead>
       <tr>
@@ -102,3 +109,20 @@
       </div>
     </div>
  </ng-template>
+
+ <ng-template #pdfDownloadModal>
+  <div class="custom-modal">
+    <div class="modal-header">
+      <h4 class="modal-title">Download PDF</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="closePDFDownloadModal()">
+        <span aria-hidden="true">×</span>
+     </button>
+    </div>
+    <div class="modal-body">
+      <iframe *ngIf="pdfBase64String" [src]="pdfBase64String" height="600" width="500" frameborder="0"></iframe>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closePDFDownloadModal()">Close</button>
+    </div>
+  </div>
+</ng-template>

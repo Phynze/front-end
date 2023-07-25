@@ -1,12 +1,12 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { UserList} from '../user-list';
-import { DebugService } from '../debug.service';
 
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale, thBeLocale } from 'ngx-bootstrap/chronos';
 
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-list',
@@ -30,18 +30,17 @@ export class UserListComponent implements OnInit {
   num: number;
   createdate: string;
 
-  // Pagination variables
   pageSize = 10;
 
-  constructor(private debugService: DebugService, private modalService: BsModalService,
-              private localeService: BsLocaleService, private httpClient : HttpClient) {
+  pdfBase64String: SafeResourceUrl | undefined;
+
+  constructor(private modalService: BsModalService,private localeService: BsLocaleService, private httpClient : HttpClient, private sanitizer:DomSanitizer) {
                 this.maxEndDate = new Date(); // set enddate to today
                 defineLocale('th-be', thBeLocale); // กำหนด locale ของปีพ.ศ.
                 this.localeService.use('th-be'); // ใช้งาน locale ที่กำหนด
               }
 
   ngOnInit() {
-    this.debugService.info("User List component initialized");
     this.title = "ผู้ใช้งาน"
     // โหลดข้อมูลผู้ใช้งานจาก back-end
     this.fetchDataFromDatabase();
@@ -71,7 +70,7 @@ export class UserListComponent implements OnInit {
       this.newRow = { ...user };
       console.log("ข้อมูล newRow : ",this.newRow);
 
-      // แสดงข้อมูลเดิมที่เคยมีอยู่ก่อนแก้ไข
+      // ข้อมูลเดิมที่เคยมีอยู่ก่อนแก้ไข
       this.name = user.name;
       this.lastname = user.lastname;
       this.age = user.age;
@@ -271,14 +270,34 @@ export class UserListComponent implements OnInit {
           this.userList.splice(index, 1); // ลบข้อมูลผู้ใช้ออกจากอาร์เรย์
           this.fetchDataFromDatabase(); // อัปเดตข้อมูลที่แสดงในตาราง
         });
-      } else {
-      console.log("ไม่ลบข้อมูล");
       }
+    }else {
+      console.log("ไม่ลบข้อมูล");
     }
   }
   
   cancelEdit() {
     this.closeModal();
     this.clearInputField();
-  }  
+  } 
+
+  @ViewChild('pdfDownloadModal', { static: false, read: TemplateRef }) pdfDownloadModal!: TemplateRef<any>;
+
+  closePDFDownloadModal() {
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
+  }
+  onDownloadPdfClick(): void {
+    this.modalRef = this.modalService.show(this.pdfDownloadModal);
+    this.httpClient.post<any>('http://127.0.0.1:8778/kwanController/report', this.userList,{ responseType: 'text' as 'json' }).subscribe(
+      (response) => {
+        this.pdfBase64String = this.sanitizer.bypassSecurityTrustResourceUrl(`data:application/pdf;base64,${response}`);
+        console.log("this.pdfBase64String",this.pdfBase64String);
+      },
+      (error) => {
+        console.error('Error occurred while generating the report:', error);
+      }
+    );
+  }
 }
