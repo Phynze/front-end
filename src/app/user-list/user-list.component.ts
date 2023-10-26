@@ -165,7 +165,7 @@ export class UserListComponent implements OnInit {
         age: this.age,
         createdate: this.convertToCreateDate(user.createdate),
         gender: this.gender,
-        birthdate: this.convertDateToString(this.birthdate),
+        birthdate: this.formatted(this.birthdate),
         createby: this.name,
         updatedate: this.convertDateToString(new Date()),
         updateby: this.name,
@@ -258,6 +258,13 @@ export class UserListComponent implements OnInit {
     const month = parts[1];
     const day = (parseInt(parts[2]) + 1).toString();
     return day.padStart(2, '0') + "/" + month + "/" + year;
+  }
+
+  formatted(dob: String) {
+    let sliceyear = parseInt(dob.slice(0, 4)) + 543;
+    let slicemonth = dob.slice(5, 7);
+    let sliceday = dob.slice(8, 10);
+    return sliceday.padStart(2, '0')+"/"+slicemonth.padStart(2, '0')+"/"+sliceyear;
   }
 
 
